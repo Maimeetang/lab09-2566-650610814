@@ -1,3 +1,6 @@
+"use client";
+import { useState } from "react";
+
 export const Task = ({
   id,
   title,
@@ -5,6 +8,15 @@ export const Task = ({
   toggleDoneTaskFunc,
   completed,
 }) => {
+  const [IsSuccedOk, setIsSuccedOk] = useState(false);
+  const resultClassname = IsSuccedOk ? "" : "text-decoration-line-through";
+  const successBtnOnClick = () => {
+    if (IsSuccedOk) {
+      setIsSuccedOk(false);
+    } else {
+      setIsSuccedOk(true);
+    }
+  };
   const deleteBtnOnClick = () => {
     deleteTaskFunc(id);
   };
@@ -17,8 +29,10 @@ export const Task = ({
         But if task is not completed : 
         <span>{title}</span>
       */}
-      <span>{title}</span>
-      <button className="btn btn-success">Done</button>
+      <span className={resultClassname}>{title}</span>
+      <button className="btn btn-success" onClick={successBtnOnClick}>
+        Done
+      </button>
       <button className="btn btn-danger" onClick={deleteBtnOnClick}>
         Delete
       </button>
