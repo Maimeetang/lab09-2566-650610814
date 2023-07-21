@@ -8,12 +8,14 @@ export const Task = ({
   toggleDoneTaskFunc,
   completed,
 }) => {
-  const [IsSuccedOk, setIsSuccedOk] = useState(false);
+  const [IsSuccedOk, setIsSuccedOk] = useState(true);
   const resultClassname = IsSuccedOk ? "" : "text-decoration-line-through";
   const successBtnOnClick = () => {
     if (IsSuccedOk) {
+      toggleDoneTaskFunc(id);
       setIsSuccedOk(false);
     } else {
+      toggleDoneTaskFunc(id);
       setIsSuccedOk(true);
     }
   };
@@ -37,5 +39,13 @@ export const Task = ({
         Delete
       </button>
     </div>
+  );
+};
+
+export const TaskSummary = (props) => {
+  return (
+    <p className="text-center text-secondary fst-italic">
+      All ({props.all}) Done ({props.done})
+    </p>
   );
 };

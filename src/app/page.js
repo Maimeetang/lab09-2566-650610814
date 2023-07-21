@@ -6,20 +6,27 @@ import { Task } from "@/components/Task";
 import { TaskInput } from "@/components/TaskInput";
 import { nanoid } from "nanoid";
 import { useState } from "react";
+import { TaskSummary } from "@/components/Task";
 
 export default function Home() {
   //tasks = array of {id: string, title: string, completed: boolean}
   const [tasks, setTasks] = useState([]);
+  const [done, setDone] = useState(0);
+  const [all, setAll] = useState(0);
 
   const addTask = (newTaskTitle) => {
     const newTask = { id: nanoid(), title: newTaskTitle, completed: false };
     const newTasks = [...tasks, newTask];
     setTasks(newTasks);
+    setAll(all + 1);
   };
 
   const deleteTask = (taskId) => {
+    const task = tasks.find((task) => task.id === taskId);
+    if (task.completed) setDone(done - 1);
     const newTasks = tasks.filter((task) => task.id !== taskId);
     setTasks(newTasks);
+    setAll(all - 1);
   };
 
   const toggleDoneTask = (taskId) => {
@@ -29,6 +36,8 @@ export default function Home() {
     //search for a task based on condition
     const task = newTasks.find((x) => x.id === taskId);
     task.completed = !task.completed;
+    const countDone = task.completed ? done + 1 : done - 1;
+    setDone(countDone);
     setTasks(newTasks);
   };
 
@@ -40,9 +49,7 @@ export default function Home() {
       {/* tasks container */}
       <div style={{ maxWidth: "400px" }} className="mx-auto">
         {/* Task summary */}
-        <p className="text-center text-secondary fst-italic">
-          All (...) Done (...)
-        </p>
+        <TaskSummary all={all} done={done} />
         {/* task input */}
         <TaskInput addTaskFunc={addTask} />
 
@@ -60,7 +67,7 @@ export default function Home() {
       </div>
 
       {/* //footer section */}
-      <Footer year="2023" fullName="Chayanin Suatap" studentId="12345678" />
+      <Footer year="2023" fullName="Sirawit Kongkham" studentId="650610814" />
     </div>
   );
 }
